@@ -11,10 +11,16 @@ cmake_minimum_required(VERSION 3.4.1)
 # Gradle automatically packages shared libraries with your APK.
 
 #支持-std=gnu++11
-set(CMAKE_VERBOSE_MAKEFILE on)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
+if(CMAKE_COMPILER_IS_GNUCXX)
+    set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
+    message(STATUS "optional:-std=c++11")
+endif(CMAKE_COMPILER_IS_GNUCXX)
+#set(CMAKE_VERBOSE_MAKEFILE on)
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
 #配置加载native依赖
-include_directories(${pathToOpenCv}/sdk/native/jni/include)
+#include_directories(${pathToOpenCv}/sdk/native/jni/include)
+include_directories(src/main/cpp/include)
+set(distribution_DIR ${CMAKE_SOURCE_DIR}/../../../../src/main/cpp)
 
 set(CURRENT_DIR ${CMAKE_SOURCE_DIR})
 # 在Gradle Console输出信息
@@ -26,7 +32,7 @@ add_library(lib_opencv STATIC IMPORTED ) #表示创建一个导入库，静态�
 #引入libopencv_java3.so文件
 set_target_properties(lib_opencv
         PROPERTIES
-        IMPORTED_LOCATION ${CURRENT_DIR}/jniLibs/${ANDROID_ABI}/libopencv_java4.so
+        IMPORTED_LOCATION ${CURRENT_DIR}/src/main/cpp/jniLibs/${ANDROID_ABI}/libopencv_java4.so
         )
 
 
@@ -37,7 +43,7 @@ add_library( # Sets the name of the library.
         SHARED
 
         # Provides a relative path to your source file(s).
-        native-lib.cpp)
+        src/main/cpp/native-lib.cpp)
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by

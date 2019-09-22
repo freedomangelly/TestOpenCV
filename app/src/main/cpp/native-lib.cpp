@@ -1,6 +1,6 @@
 #include <jni.h>
 #include <string>
-#include "/include/opencv2/opencv.hpp"
+#include "opencv2/opencv.hpp"
 
 extern "C" JNIEXPORT jstring JNICALL
 Java_com_example_testopencv_MainActivity_stringFromJNI(
